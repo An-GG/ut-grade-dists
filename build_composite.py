@@ -3,7 +3,7 @@ import pandas as pd
 
 dataset_path = "./dataset"
 
-csvs = os.listdir(dataset_path)
+csvs = sorted(os.listdir(dataset_path))
 dataframes = []
 for csv in csvs:
     file_path = os.path.join(dataset_path, csv)
@@ -15,4 +15,7 @@ for csv in csvs:
     dataframes.append(df)
 
 combined_df = pd.concat(dataframes, ignore_index=True)
+
+combined_df = combined_df.drop(combined_df.columns[0], axis=1)
+combined_df = combined_df.rename(columns={combined_df.columns[8]: "Number Of Students"})
 combined_df.to_csv('composite.csv', index=False)
